@@ -18,3 +18,40 @@
           - curl
         state: present
 
+- name: Update apt cache and install Docker on minicube
+  hosts: minicube
+  become: true
+  tasks:
+    - name: Update apt package cache
+      ansible.builtin.apt:
+        update_cache: yes
+
+    - name: Upgrade all apt packages
+      ansible.builtin.apt:
+        upgrade: dist
+
+    - name: Install Docker and prerequisites
+      ansible.builtin.apt:
+        name: 
+          - docker.io
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+
+    - name: Start and enable Docker service
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Install Minikube binary
+      ansible.builtin.get_url:
+        url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        dest: /tmp/minikube-linux-amd64
+        mode: '0744'
+
+    - name: Install Minikube binary
+      ansible.builtin.shell: |
+        sudo install /tmp/minikube-linux-amd64 /usr/local/bin/minikube && sudo rm /tmp/minikube-linux-amd64
