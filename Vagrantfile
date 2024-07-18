@@ -14,12 +14,12 @@ Vagrant.configure("2") do |config|
     jammy.vm.hostname = "jammy"
   end
   
-  config.vm.define "minicube" do |minicube|
-    minicube.vm.box = "ubuntu/jammy64"
-    minicube.vm.network "private_network", ip: "192.168.56.13"
-    minicube.vm.hostname = "minicube"
+  config.vm.define "minikube" do |minikube|
+    minikube.vm.box = "ubuntu/jammy64"
+    minikube.vm.network "private_network", ip: "192.168.56.13"
+    minikube.vm.hostname = "minikube"
 
-    minicube.vm.provider "virtualbox" do |vb|
+    minikube.vm.provider "virtualbox" do |vb|
       vb.memory = "4096"
     end
   end
